@@ -4,14 +4,14 @@
 <img src="Figure/logo.png" width="35%"> 
 </div>
 
-This repository is created for the 📃paper [Mixup Model Merge: Enhancing Model Merging Performance through Randomized Linear Interpolation](https://arxiv.org/abs/your-paper-link). If you have any questions or suggestions, feel free to open an issue. We'd be happy to assist!
+This repository is created for the 📃paper [Mixup Model Merge: Enhancing Model Merging Performance through Randomized Linear Interpolation](https://arxiv.org/pdf/2502.15434). If you have any questions or suggestions, feel free to open an issue. We'd be happy to assist!
 
 ## Updates
 - 🔥 **2025/02/27**: Released the codebase of Mixup Model Merge (M<sup>3</sup>) on GitHub.
-- 🔥 **2025/02/26**: Released the first version of our 🚀[paper](https://arxiv.org/abs/your-paper-link).
+- 🔥 **2025/02/26**: Released the first version of our 🚀[paper](https://arxiv.org/pdf/2502.15434).
 
 
-## Overview
+## Introduction
 In this study, we propose Mixup Model Merge (M<sup>3</sup>), an innovative approach inspired by the [Mixup data augmentation technique](https://arxiv.org/pdf/1710.09412). This method merges the parameters of two large language models (LLMs) by randomly generating linear interpolation ratios, allowing for a more flexible and comprehensive exploration of the parameter space.
 The implementation of M<sup>3</sup> is similar to the process of proportionally mixing magical potions in \textit{Harry Potter}:
 
@@ -42,7 +42,7 @@ Extensive experimental results show that:
 * We evaluate performance across three tasks using five datasets: AlpacaEval (instruction-following), GSM8K and MATH (mathematical reasoning), and HumanEval and MBPP (code generation).
 
 ## Model Merging Methods
-We follow the implementation of five model merging methods in the [Super Mario repository](https://github.com/yule-BUAA/MergeLM), including [Average Merging](https://arxiv.org/abs/2203.05482), [Task Arithmetic](https://arxiv.org/abs/2212.04089), and [TIES-Merging](https://arxiv.org/abs/2306.01708). Additionally, we combine the proposed [Mixup Model Merge (M<sup>3</sup>)](https://arxiv.org/abs/your-paper-link) with these methods to enhance merging performance.
+We follow the implementation of five model merging methods in the [Super Mario repository](https://github.com/yule-BUAA/MergeLM), including [Average Merging](https://arxiv.org/abs/2203.05482), [Task Arithmetic](https://arxiv.org/abs/2212.04089), and [TIES-Merging](https://arxiv.org/abs/2306.01708). Additionally, we combine the proposed [Mixup Model Merge (M<sup>3</sup>)](https://arxiv.org/pdf/2502.15434) with these methods to enhance merging performance.
 
 ## Model Robustness Evaluation
 ### Out-of-distribution robustness
@@ -61,21 +61,21 @@ PyTorch 2.0.1, vllm 0.1.4, transformers 4.33.1, datasets 2.13.1, numpy 1.26.3, f
 # Scripts for Merging Models
 * Example of merging *WizardLM-13B-V1.2* and *WizardMath-13B-V1.0* using Average Merging, Task Arithmetic (scaling_coefficient 1.0) or TIES-Merging (scaling_coefficient 1.0, param_value_mask_rate 0.5):
 ```{bash}
-python merge_llms_instruct_math_code.py --merge_instruct --merge_math --merging_method_name average_merging --tensor_parallel_size 1
-python merge_llms_instruct_math_code.py --merge_instruct --merge_math --merging_method_name task_arithmetic --scaling_coefficient 1.0 --tensor_parallel_size 1
-python merge_llms_instruct_math_code.py --merge_instruct --merge_math --merging_method_name ties-merging --scaling_coefficient 1.0 --param_value_mask_rate 0.5 --tensor_parallel_size 1
+python merge_llms_instruct_math_code.py --merge_instruct --merge_math --merging_method_name average_merging --tensor_parallel_size 2
+python merge_llms_instruct_math_code.py --merge_instruct --merge_math --merging_method_name task_arithmetic --scaling_coefficient 1.0 --tensor_parallel_size 2
+python merge_llms_instruct_math_code.py --merge_instruct --merge_math --merging_method_name ties-merging --scaling_coefficient 1.0 --param_value_mask_rate 0.5 --tensor_parallel_size 2
 ```
 * Example of merging *WizardLM-13B-V1.2* and *WizardMath-13B-V1.0* using Average Merging with M<sup>3</sup> (alpha 0.5):
 ```{bash}
-python merge_llms_instruct_math_code.py --merge_instruct --merge_math --merging_method_name average_merging --tensor_parallel_size 1 --mixup --alpha 0.5
+python merge_llms_instruct_math_code.py --merge_instruct --merge_math --merging_method_name average_merging --tensor_parallel_size 2 --mixup --alpha 0.5
 ```
 * Example of merging *WizardLM-13B-V1.2* and *WizardMath-13B-V1.0* using Average Merging with DARE (drop rate 0.2):
 ```{bash}
-python merge_llms_instruct_math_code.py --merge_instruct --merge_math --merging_method_name mask_merging --use_weight_rescale --weight_mask_rate 0.2 --mask_apply_method average_merging --tensor_parallel_size 1
+python merge_llms_instruct_math_code.py --merge_instruct --merge_math --merging_method_name mask_merging --use_weight_rescale --weight_mask_rate 0.2 --mask_apply_method average_merging --tensor_parallel_size 2
 ```
 * Example of merging *WizardLM-13B-V1.2* and *WizardMath-13B-V1.0* using Average Merging with M<sup>3</sup> and DARE (drop rate 0.2, alpha 0.5):
 ```{bash}
-python merge_llms_instruct_math_code.py --merge_instruct --merge_math --merging_method_name mask_merging --use_weight_rescale --weight_mask_rate 0.2 --mask_apply_method average_merging --tensor_parallel_size 1 --mixup --alpha 0.5
+python merge_llms_instruct_math_code.py --merge_instruct --merge_math --merging_method_name mask_merging --use_weight_rescale --weight_mask_rate 0.2 --mask_apply_method average_merging --tensor_parallel_size 2 --mixup --alpha 0.5
 ```
 ❗**Note 1**: When merging LLMs, the number of GPUs required = num_models_to_merge * tensor_parallel_size.
 
