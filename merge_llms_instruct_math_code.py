@@ -102,15 +102,15 @@ def get_merge_performance(args: argparse.Namespace, finetuned_model_names: list,
                                                    mask_apply_method=args.mask_apply_method,
                                                    models_use_deepcopy=False,
                                                    use_mixup=args.mixup,
-                                                   alpha=args.mixup)
+                                                   alpha=args.alpha)
 
     save_instruct_model_path = save_math_model_path = save_code_model_path = None
     if args.merge_instruct:
-        save_instruct_model_path = f"./save_merge_models/{'_'.join(merge_task_names)}/instruct/{args.save_model_name}"
+        save_instruct_model_path = f"/root/autodl-tmp/save_merge_models/{'_'.join(merge_task_names)}/instruct/{args.save_model_name}"
     if args.merge_math:
-        save_math_model_path = f"./save_merge_models/{'_'.join(merge_task_names)}/math/{args.save_model_name}"
+        save_math_model_path = f"/root/autodl-tmp/save_merge_models/{'_'.join(merge_task_names)}/math/{args.save_model_name}"
     if args.merge_code:
-        save_code_model_path = f"./save_merge_models/{'_'.join(merge_task_names)}/code/{args.save_model_name}"
+        save_code_model_path = f"/root/autodl-tmp/save_merge_models/{'_'.join(merge_task_names)}/code/{args.save_model_name}"
 
     # since the tokenizers of different tasks are different, we need to save them (together with the model) separately
     save_model_paths = [save_instruct_model_path, save_math_model_path, save_code_model_path]
@@ -169,16 +169,16 @@ def get_merge_performance(args: argparse.Namespace, finetuned_model_names: list,
 
 parser = argparse.ArgumentParser("Interface for merging LLMs")
 parser.add_argument("--merge_instruct", action="store_true", default=False, help="whether to merge instruct model")
-parser.add_argument("--merge_math", action="store_true", default=True, help="whether to merge math model")
-parser.add_argument("--merge_code", action="store_true", default=True, help="whether to merge code model")
-parser.add_argument("--merging_method_name", type=str, default="average_merging", help="name of the method to merge models",
+parser.add_argument("--merge_math", action="store_true", default=False, help="whether to merge math model")
+parser.add_argument("--merge_code", action="store_true", default=False, help="whether to merge code model")
+parser.add_argument("--merging_method_name", type=str, default="mask_merging", help="name of the method to merge models",
                     choices=["ties_merging", "average_merging", "task_arithmetic", "mask_merging"])
 parser.add_argument("--scaling_coefficient", type=float, default=1.0, help="scaling coefficient to merge the task vector")
 parser.add_argument("--weight_format", type=str, help="the format of weights to be masked", default="delta_weight", choices=["finetuned_weight", "delta_weight"])
 parser.add_argument("--weight_mask_rate", type=float, default=0.2, help="weight mask rate")
-parser.add_argument("--use_weight_rescale", action="store_true", default=True, help="whether to rescale the weight by 1 / (1 - weight_mask_rate)")
+parser.add_argument("--use_weight_rescale", action="store_true", default=False, help="whether to rescale the weight by 1 / (1 - weight_mask_rate)")
 parser.add_argument("--mask_strategy", type=str, help="mask strategy", default="random", choices=["random", "magnitude"])
-parser.add_argument("--mask_apply_method", type=str, default="ties_merging", help="merging method that the mask strategy applies",
+parser.add_argument("--mask_apply_method", type=str, default="average_merging", help="merging method that the mask strategy applies",
                     choices=["ties_merging", "average_merging", "task_arithmetic"])
 parser.add_argument('--start_index', type=int, default=0)
 parser.add_argument('--end_index', type=int, default=sys.maxsize)

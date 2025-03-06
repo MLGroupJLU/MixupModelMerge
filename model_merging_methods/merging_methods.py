@@ -8,6 +8,11 @@ from model_merging_methods.task_vector import TaskVector
 from utils.utils import get_param_names_to_merge, get_modules_to_merge
 from model_merging_methods.mask_weights_utils import mask_model_weights
 
+import numpy as np
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 class MergingMethod:
     def __init__(self, merging_method_name: str):
@@ -777,13 +782,13 @@ class MergingMethod:
                                                             weight_mask_rate=weight_mask_rate, use_weight_rescale=use_weight_rescale, mask_strategy=mask_strategy)
                         self.copy_params_to_model(params=masked_param_dict, model=new_model_to_merge)
                 if mask_apply_method == "average_merging":
-                    merged_params = self.average_merging_mixup(models_to_merge=new_models_to_merge, exclude_param_names_regex=exclude_param_names_regex)
+                    merged_params = self.average_merging_mixup(models_to_merge=new_models_to_merge, exclude_param_names_regex=exclude_param_names_regex, alpha=alpha)
                 elif mask_apply_method == "task_arithmetic":
                     merged_params = self.task_arithmetic_mixup(merged_model=merged_model, models_to_merge=new_models_to_merge, exclude_param_names_regex=exclude_param_names_regex,
-                                                        scaling_coefficient=scaling_coefficient)
+                                                        scaling_coefficient=scaling_coefficient, alpha=alpha)
                 elif mask_apply_method == "ties_merging":
                     merged_params = self.ties_merging_mixup(merged_model=merged_model, models_to_merge=new_models_to_merge, exclude_param_names_regex=exclude_param_names_regex,
-                                                    param_value_mask_rate=param_value_mask_rate, scaling_coefficient=scaling_coefficient)
+                                                    param_value_mask_rate=param_value_mask_rate, scaling_coefficient=scaling_coefficient, alpha=alpha)
                 else:
                     raise NotImplementedError(f"unsupported for mask_apply_method {mask_apply_method}!")
             else:
