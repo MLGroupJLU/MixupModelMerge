@@ -4,11 +4,11 @@
 <img src="Figure/logo.png" width="35%"> 
 </div>
 
-This repository is created for the 📃paper [Mixup Model Merge: Enhancing Model Merging Performance through Randomized Linear Interpolation](https://arxiv.org/pdf/2502.15434). If you have any questions or suggestions, feel free to open an issue. We'd be happy to assist!
+This repository is created for the paper [Mixup Model Merge: Enhancing Model Merging Performance through Randomized Linear Interpolation](https://arxiv.org/pdf/2502.15434). If you have any questions or suggestions, feel free to open an issue. We'd be happy to assist!
 
 ## Updates
-- 🔥 **2025/02/27**: Released the codebase of Mixup Model Merge (M<sup>3</sup>) on GitHub.
-- 🔥 **2025/02/26**: Released the first version of our 🚀[paper](https://arxiv.org/pdf/2502.15434).
+- 🔥🔥🔥 **2025/02/27**: Released the codebase of Mixup Model Merge (M<sup>3</sup>) on GitHub.
+- 🔥🔥🔥 **2025/02/26**: Released the first version of our 🚀[paper](https://arxiv.org/pdf/2502.15434)🚀.
 
 
 ## Introduction
